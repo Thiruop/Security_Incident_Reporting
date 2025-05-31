@@ -60,7 +60,7 @@ export const LoginUser = async (req, res) => {
       return res.status(401).json({ msg: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '2h' });
+    const token = jwt.sign({ id: user.id, role: user.role, email: user.email }, process.env.JWT_SECRET, { expiresIn: '2h' });
 
     await pool.query(
       'INSERT INTO UserLog (user_id, username, status, report_activity, description) VALUES (?, ?, ?, ?, ?)',

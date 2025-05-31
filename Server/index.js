@@ -2,13 +2,16 @@ import express from 'express';
 import pool from './Models/db.js';
 import UserRoutes from './Routes/UserRoute.js';
 import ReportRoute from './Routes/ReportRoute.js';
+import cors from 'cors';
 
 const app = express();
+app.use(cors({origin: '*'})); // Adjust the origin as needed
+
 app.use(express.json());
 app.use("/api", UserRoutes);
 app.use("/api", ReportRoute);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 async function startServer() {
   try {
