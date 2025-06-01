@@ -25,11 +25,24 @@ function SideBar() {
     role === 'admin' ? adminItems : role === 'employee' ? employeeItems : [];
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('LoggedIn');
-    localStorage.removeItem('email');
-    navigate('/');
+    fetch("http://localhost:4000/api/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        localStorage.removeItem('LoggedIn');
+        localStorage.removeItem('email');
+        window.location.href = '/'; 
+      })
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      });
   };
 
   return (
@@ -51,7 +64,6 @@ function SideBar() {
         </ul>
       </div>
 
-      {/* Logout Button */}
       <div className="mt-6 border-t pt-4">
         <button
           onClick={handleLogout}

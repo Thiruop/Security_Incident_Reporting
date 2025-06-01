@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { ToastContainer, toast } from "react-toastify";
+import SignUp from "../assets/SignUp.jpg";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Registration() {
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ function Registration() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("Employee"); // Default role
+  const [role, setRole] = useState("Employee");
 
   const registerMutation = useMutation({
     mutationFn: async () => {
@@ -34,29 +36,12 @@ function Registration() {
 
       return data;
     },
-    onSuccess: (data) => {
-      toast.success("Registration successful! Redirecting to login...", {
-        position: "top-right",
-        autoClose: 3000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-
-      setTimeout(() => {
-        navigate("/");
-      }, 3000);
+    onSuccess: () => {
+      toast.success("Registration successful! Redirecting to login...");
+      setTimeout(() => navigate("/"), 3000);
     },
     onError: (error) => {
-      toast.error(error.message || "Registration failed", {
-        position: "top-right",
-        autoClose: 5000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
+      toast.error(error.message || "Registration failed");
     },
   });
 
@@ -67,115 +52,114 @@ function Registration() {
 
   return (
     <>
-      <div className="bg-gray-200 font-sans text-gray-700 min-h-screen flex items-center justify-center">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-2xl p-8">
-          <h1 className="text-4xl text-center mb-12 font-thin">Register</h1>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 font-sans p-6">
+        <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row">
+          
+          <div className="md:w-1/2">
+            <img
+              src={SignUp}
+              alt="Sign Up"
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-5">
-              <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-600">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
+          <div className="md:w-1/2 p-8">
+            <h2 className="text-2xl font-semibold text-center text-indigo-600 mb-6">
+              Create an Account
+            </h2>
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-2 gap-4">
+                
+                <div className="col-span-2">
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
 
-            <div className="mb-5">
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+                <div className="col-span-2">
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
 
-            <div className="mb-5">
-              <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-600">
-                Role
-              </label>
-              <select
-                id="role"
-                name="role"
-                className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                required
+                <div className="col-span-2">
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Role
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                  >
+                    <option value="Employee">Employee</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-700 text-sm font-medium mb-2">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    className="w-full px-3 py-2 border rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full mt-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition duration-200"
+                disabled={registerMutation.isLoading}
               >
-                <option value="employee">Employee</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
+                {registerMutation.isLoading ? "Registering..." : "Register"}
+              </button>
 
-            <div className="mb-5">
-              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-600">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="mb-5">
-              <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-600">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                className="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full p-3 mt-4 bg-indigo-600 text-white rounded shadow"
-              disabled={registerMutation.isLoading}
-            >
-              {registerMutation.isLoading ? "Registering..." : "Register"}
-            </button>
-            <a className="font-medium text-indigo-500" onClick={() => navigate("/")}>
-                  Back to Login
-                </a>
-          </form>
+              <p className="mt-4 text-sm text-center text-gray-600">
+                Already have an account?{" "}
+                <span
+                  className="text-indigo-600 hover:underline cursor-pointer"
+                  onClick={() => navigate("/")}
+                >
+                  Login
+                </span>
+              </p>
+            </form>
+          </div>
         </div>
       </div>
-      
 
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainer />
     </>
   );
 }

@@ -25,7 +25,7 @@ export const AddReports = () => {
         console.log("Report submitted successfully:", data);
         setReportData({ title: '', description: '', category: '' });
      
-         toast.success('Login successful', {
+         toast.success('Report submitted successfully', {
                   position: "top-right",
                   autoClose: 2000,
                   hideProgressBar: false,
@@ -41,7 +41,7 @@ export const AddReports = () => {
                 }, 3000);
          })
       .catch((error) => {
-         toast.error('Login failed', {
+         toast.error('Report submission failed', {
                   position: "top-right",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -76,7 +76,6 @@ export const AddReports = () => {
             />
           </div>
 
-          {/* Category */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
             <select
@@ -91,8 +90,6 @@ export const AddReports = () => {
               <option value="other">Other</option>
             </select>
           </div>
-
-          {/* Description (Full width) */}
           <div className="md:col-span-2">
             <label className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
             <textarea
@@ -103,7 +100,6 @@ export const AddReports = () => {
             />
           </div>
 
-          {/* Submit Button (Full width) */}
           <div className="md:col-span-2 text-center mt-4">
             <button
               type="submit"

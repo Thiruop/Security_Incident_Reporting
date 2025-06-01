@@ -3,6 +3,7 @@ import {
   PieChart, Pie, Cell,
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import NotFound from '../assets/NotFound.jpg';
 
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7f50'];
 
@@ -66,7 +67,19 @@ const Dashboard = () => {
   );
 
   if (loading) return <div className="p-4 text-gray-700 dark:text-gray-200">Loading...</div>;
-  if (error) return <div className="p-4 text-red-500 dark:text-red-400">Error: {error}</div>;
+  if (error) {
+  return (
+    <div className="flex items-center justify-center bg-white dark:bg-gray-900 overflow-hidden">
+      <img
+        src={NotFound}
+        alt="Not Found"
+        className="max-w-[400px] max-h-[400px] w-full h-auto"
+      />
+    </div>
+  );
+}
+
+
 
   return (
     <div className="p-6 text-gray-800 dark:text-white">

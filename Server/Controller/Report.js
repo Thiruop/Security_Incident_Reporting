@@ -120,22 +120,37 @@ export const AddNote = async (req, res) => {
     return res.status(403).json({ message: 'Only admins can add notes' });
   }
 
-  if (!note || note.trim() === "") {
+  if (!note || note.trim() === '') {
     return res.status(400).json({ message: 'Note content is required' });
   }
 
   try {
-    const [result] = await pool.execute(
-      'INSERT INTO AdminNotes (report_id, note, admin_id) VALUES (?, ?, ?)',
-      [reportId, note, req.user.id]
+    const [existingNote] = await pool.execute(
+      'SELECT id FROM AdminNotes WHERE report_id = ?',
+      [reportId]
     );
 
-    res.status(201).json({ message: 'Note added successfully', note_id: result.insertId });
+    if (existingNote.length > 0) {
+      const [result] = await pool.execute(
+        'UPDATE AdminNotes SET note = ?, admin_id = ?, timestamp = NOW() WHERE report_id = ?',
+        [note, req.user.id, reportId]
+      );
+
+      return res.status(200).json({ message: 'Note updated successfully' });
+    } else {
+      const [result] = await pool.execute(
+        'INSERT INTO AdminNotes (report_id, note, admin_id) VALUES (?, ?, ?)',
+        [reportId, note, req.user.id]
+      );
+
+      return res.status(201).json({ message: 'Note added successfully', note_id: result.insertId });
+    }
   } catch (err) {
-    console.error('Error adding note:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error adding/updating note:', err);
+    return res.status(500).json({ message: 'Server error' });
   }
-}
+};
+
 export const ViewLogs = async (req, res) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ message: 'Only admins can view logs' });
@@ -151,6 +166,21 @@ export const ViewLogs = async (req, res) => {
     res.status(200).json(logs);
   } catch (err) {
     console.error('Error fetching logs:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+export const ViewNotes = async (req, res) =>{
+  try {
+    const reportId = req.params.id;
+    const [notes] = await pool.query('SELECT * FROM AdminNotes WHERE report_id = ?', [reportId]);
+    
+    if (!notes || notes.length === 0) {
+      return res.status(404).json({ message: 'No notes found' });
+    }
+    
+    res.status(200).json(notes);
+  } catch (err) {
+    console.error('Error fetching notes:', err);
     res.status(500).json({ message: 'Server error' });
   }
 }
