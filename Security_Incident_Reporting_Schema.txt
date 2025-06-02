@@ -1,0 +1,50 @@
+AdminNotes - 
+CREATE TABLE AdminNotes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    report_id INT,
+    note TEXT,
+    admin_id INT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (report_id) REFERENCES Reports(id),
+    FOREIGN KEY (admin_id) REFERENCES Users(id)
+);
+
+
+Users - 
+CREATE TABLE Users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password_hash TEXT,
+    role ENUM('employee', 'admin')
+);
+
+
+Reports - 
+CREATE TABLE Reports (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255),
+    description TEXT,
+    category VARCHAR(50),
+    status ENUM('open', 'under review', 'resolved') DEFAULT 'open',
+    user_id INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+Userlog -
+CREATE TABLE userlog (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  username VARCHAR(100),
+  status ENUM('active', 'inactive'),
+  report_activity ENUM('raised', 'cleared'),
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  description VARCHAR(200) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+
