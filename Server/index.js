@@ -5,7 +5,7 @@ import ReportRoute from './Routes/ReportRoute.js';
 import cors from 'cors';
 
 const app = express();
-app.use(cors({origin: '*'})); // Adjust the origin as needed
+app.use(cors({origin: '*'})); 
 
 app.use(express.json());
 app.use("/api", UserRoutes);

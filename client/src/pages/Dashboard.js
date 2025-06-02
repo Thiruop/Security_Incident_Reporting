@@ -138,7 +138,6 @@ const Dashboard = () => {
   );
 };
 
-// Reusable Stat Card
 const StatCard = ({ label, value }) => (
   <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow text-center">
     <h4 className="text-gray-500 dark:text-gray-300">{label}</h4>
