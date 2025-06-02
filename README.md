@@ -55,4 +55,8 @@ password, create DB name **IncidentReporting** cmd- **create database IncidentRe
 
 MySQL Workbench work locally so i have Register page so you can create the account and explore the both addmin and employee Dashboard
 
+**Command To run**
+1. React - the Current folder should be client cmd -> npm i (it will install the package),npm start( it will start the react application)
+2. Node - the Current folder should be Server cmd -> npm i (it will install the package),npm run dev( it will start the nodemon in node application)
+
 
